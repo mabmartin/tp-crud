@@ -1,4 +1,5 @@
 import { model, Schema } from "mongoose"
+import bcrypt from "bcryptjs"
 
 const rolesEnum = ["ADMIN", "MERCHANT", "CUSTOMER"] 
 
@@ -44,6 +45,9 @@ const userSchema = new Schema({
       
 })
 
+userSchema.pre("save", async function (next) {
+    this.password = await bcrypt.hash(this.password, 10)
+    next()
+})
 
-
-export default model("Product", userSchema)
+export default model("user", userSchema)

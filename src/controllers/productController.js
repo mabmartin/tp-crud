@@ -12,4 +12,11 @@ export const getProducts = async (req, res) => {
     }  catch (error) {
           return res.status(500).json({ message: "internal server error",error })
     }
-}
+};
+
+export const validate = async (req, res) => {
+    try {
+        const { name, status, price } = req.body;
+        const product = new Product({ name, status, price });
+        await product.save();
+        return res.status(201).json({ message: "Product created successfully" });
