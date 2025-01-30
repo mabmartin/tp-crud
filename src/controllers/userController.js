@@ -1,4 +1,7 @@
 import User from "../models/userModel.js";
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import { SECRET } from "../config.js";
 
 export const getUsers = async (req, res) => { 
     try {
@@ -28,4 +31,4 @@ export const createUser = async (req, res) => {
     }  catch (error) {
           return res.status(500).json({ message: "internal server error",error })
     }
-}
+};

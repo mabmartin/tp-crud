@@ -2,7 +2,7 @@ import Product from "../models/productModel.js";
 
 export const getProducts = async (req, res) => { 
     try {
-        const products = await Product.find()
+        const products = await Product.find()populate("category")
         console.log(products)
         console.log(products.length)    
         if (products.length ===0){
@@ -16,7 +16,21 @@ export const getProducts = async (req, res) => {
 
 export const validate = async (req, res) => {
     try {
-        const { name, status, price } = req.body;
-        const product = new Product({ name, status, price });
-        await product.save();
-        return res.status(201).json({ message: "Product created successfully" });
+        
+        const productData = req.body
+        console.log(productData)
+        const { name } = productData
+        const productExist = await Product.findOne({ name })
+        if(productExist){
+            console.log(productExist)
+            return res.status(400).json({ message: `Product ${name} already exists` })
+        }
+        const newProduct = new Product(productData)
+        console.log({newProduct})
+        const savedProduct = await newProduct.save()
+        console.log({savedProduct})
+        return res.status(200).json(savedProduct)
+    } catch (error) {
+        return res.status(500).json({message: "Internal server error", error})
+    }
+}

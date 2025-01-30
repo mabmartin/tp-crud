@@ -38,7 +38,9 @@ const productSchema = new Schema({
      Image: {
         type: String,
         default: "https://picsum.photos/400"
-     }
+     },
+
+     category: { type: Schema.Types.ObjectId, ref: "category" }
 })
 
 
