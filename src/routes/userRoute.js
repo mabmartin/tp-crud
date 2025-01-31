@@ -6,5 +6,6 @@ const userRoute = Router();
 
 userRoute.get("/get", getUsers)
 userRoute.post("/create", createUser)
+userRoute.post("/login", validate)
 
 export default userRoute;

@@ -1,9 +1,11 @@
 import { Router } from "express"
-import { getProducts } from "../controllers/productController.js";
+import {createProduct, getProducts } from "../controllers/productController.js";
+import { verifyTokenMiddleware } from "../middlewares/verifyTokenMiddleware.js";
 
 const productRoute = Router();
 
 
-productRoute.get("/get", getProducts)
+productRoute.get("/get",verifyTokenMiddleware, getProducts)
+productRoute.post("/create", createProduct)
 
 export default productRoute;

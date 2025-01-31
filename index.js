@@ -3,13 +3,15 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import productRoute from "./src/routes/productRoute.js";
 import { connectDB } from "./src/db.js";
+import cookieParser from "cookie-parser";
 import userRoute from "./src/routes/userRoute.js";
+import { PORT } from "./src/config.js";
 
 
 const app = express()
 
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: '*',
     methods: ["GET", "POST", "PUT", "DELETE"],
 }))
 
@@ -23,6 +25,6 @@ app.use("/api/user", userRoute)
 
 connectDB()
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
     console.log("Server is running on port 3000")
 })
