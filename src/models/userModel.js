@@ -6,7 +6,7 @@ const rolesEnum = ["ADMIN", "MERCHANT", "CUSTOMER"]
 const userSchema = new Schema({
     name: {
         type: String,
-        required: [true, "Please enter product name"],
+        required: [true, "Please enter user name"],
         unique: true,
         trim: true,
         lowercase: true,
@@ -15,7 +15,7 @@ const userSchema = new Schema({
     },
     password: {
         type: String ,
-        required: [true, "Name field is required"],
+        required: [true, "password field is required"],
         trim: true,
      },
     
@@ -31,15 +31,17 @@ const userSchema = new Schema({
         unique: true,
      },
      roles: {
-        type: String ,
+        type: [String],
+        required: [true,"role field is required"],
+        enum: rolesEnum,
         validate: {
-            validator: function (status) {
-                return rolesEnum.includes(status)
+            validator: function(value) {
+                
+                return value.every(role => rolesEnum.includes(role));
             },
             message: (props) => `${props.value} is not a valid role`
         },
-        required: [true,"role field is required"],
-        enum: rolesEnum,
+       
         
     },
       

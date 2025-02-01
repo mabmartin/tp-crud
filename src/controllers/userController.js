@@ -5,7 +5,7 @@ import { SECRET } from "../config.js";
 
 export const getUsers = async (req, res) => { 
     try {
-        const users = await Product.find()
+        const users = await User.find()
         console.log(users)
         console.log(users.length)    
         if (users.length ===0){

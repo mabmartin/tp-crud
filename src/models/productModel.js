@@ -3,46 +3,39 @@ import { model, Schema } from "mongoose"
 const statusEnum = ["AVAILABLE", "UNAVAILABLE", "OUT OF STOCK"] 
 
 const productSchema = new Schema({
-    name: {
+    nombre: {
         type: String,
-        required: [true, "Please enter product name"],
-        unique: true,
+        required: [true, "Por favor ingrese el nombre del producto"],
+        // unique: true,
         trim: true,
         lowercase: true,
-        minLength: 3,
-        maxLength: 30
-    },
-    status: {
-        type: String,
-        validate: {
-            validator: function (status) {
-                return statusEnum.includes(status)
-            },
-            message: (props) => `${props.value} is not a valid status`
-        },
-        required: true,
-        enum: statusEnum,
+        index: true,
         
     },
-    
-     createdAt:{
-        type: Date,
-        default: Date.now()
-     },
-
-     price: {
-        type: Number,
-        required: [true, "Price field is required"],
-        min: [0, "Price field has to be a  number"],
-     },
-     Image: {
+    tipo: {
         type: String,
-        default: "https://picsum.photos/400"
-     },
-
-     category: { type: Schema.Types.ObjectId, ref: "category" }
+        required: [true, "Por favor ingrese el tipo de pasta"],
+        trim: true
+    },
+    relleno: {
+        type: String,
+        required: [true, "Por favor ingrese el relleno"],
+        trim: true
+    },
+    precio: {
+        type: Number,
+        required: [true, "Por favor ingrese el precio"],
+        min: 0
+    },
+    stock: {
+        type: Number,
+        required: [true, "Por favor ingrese el stock disponible"],
+        min: 0
+    }
 })
+productSchema.indexes().forEach(index => {
+    productSchema.index(index[0], { background: true });
+});
 
 
-
-export default model("product", productSchema)
+export default model("Product", productSchema)
